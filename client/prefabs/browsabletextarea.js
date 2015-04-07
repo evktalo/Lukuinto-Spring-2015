@@ -1,29 +1,28 @@
 'use strict';
 
-var BrowsableTextArea = function(game, text) {
-  Phaser.Sprite.call(this, game, game.world.centerX - 288, 360, 'question-background');
+var BrowsableTextArea = function(game, task) {
+  Phaser.Image.call(this, game, game.world.centerX - 288, 360, 'question-background');
   this.inputEnabled = true;
   this.events.onInputDown.add(this.browseText, this);
-  this.textString = text;
+  this.textString = task.question;
   this.splitText = [];
   this.splitTextToPages(this.textString);
   this.visibleTextIndex = 0;
 
-  var textStyle = {font: '14px Arial', fill: 'white', align: 'left', wordWrap: true, wordWrapWidth: 574};
-  this.currentVisibleText = game.add.text(3, 5, this.splitText[this.visibleTextIndex],  textStyle);
+  this.textStyle = {
+    font: '14px Arial',
+    fill: 'white',
+    align: 'left',
+    wordWrap: true,
+    wordWrapWidth: 574
+  };
+  this.currentVisibleText = this.game.add.text(3, 5, this.splitText[this.visibleTextIndex],  this.textStyle);
   this.addChild(this.currentVisibleText);
-
-  var pageNumberTextStyle = {font: 'bold 14pt Arial', fill: 'red', align: 'right'};
-  var pageNumberString = 'jatkuu... ' + (this.visibleTextIndex + 1) + '/' + this.splitText.length;
-  this.pageNumberText = game.add.text(576, 154, pageNumberString, pageNumberTextStyle);
-  this.pageNumberText.anchor.setTo(1, 1);
-  if (this.splitText.length === 1) {
-    this.pageNumberText.visible = false;
-  }
-  this.addChild(this.pageNumberText);
+  this.addPageNumberText();
+  this.addAnswerTexts(task.answers);
 };
 
-BrowsableTextArea.prototype = Object.create(Phaser.Sprite.prototype);
+BrowsableTextArea.prototype = Object.create(Phaser.Image.prototype);
 BrowsableTextArea.prototype.constructor = BrowsableTextArea;
 
 BrowsableTextArea.prototype.update = function() {
@@ -41,10 +40,10 @@ BrowsableTextArea.prototype.browseText = function() {
 };
 
 BrowsableTextArea.prototype.splitTextToPages = function(text) {
-  if (text.length < 537) {
+  if (text.length < 715) {
     this.splitText.push(text);
   } else {
-    var i = 537;
+    var i = 715;
     while (text[i] !== ' ') {
       i--;
     }
@@ -54,4 +53,34 @@ BrowsableTextArea.prototype.splitTextToPages = function(text) {
   }
 };
 
+BrowsableTextArea.prototype.addPageNumberText = function() {
+  var pageNumberTextStyle = {font: 'bold 14pt Arial', fill: 'red', align: 'right'};
+  var pageNumberString = 'jatkuu... ' + (this.visibleTextIndex + 1) + '/' + this.splitText.length;
+  this.pageNumberText = this.game.add.text(576, 154, pageNumberString, pageNumberTextStyle);
+  this.pageNumberText.anchor.setTo(1, 1);
+  if (this.splitText.length === 1) {
+    this.pageNumberText.visible = false;
+  }
+  this.addChild(this.pageNumberText);
+};
+
+BrowsableTextArea.prototype.addAnswerTexts = function(answers) {
+  var textStyle = {
+    font: '21px Arial',
+    fill: 'white',
+    align: 'left',
+    wordWrap: true,
+    wordWrapWidth: 574,
+    strokeThickness: 5,
+  };
+
+  var answerA = this.game.add.text(5, 176, 'A: ' + answers[0].text, textStyle);
+  this.addChild(answerA);
+  var answerB = this.game.add.text(5, 199, 'B: ' + answers[1].text, textStyle);
+  this.addChild(answerB);
+  var answerC = this.game.add.text(5, 222, 'C: ' + answers[2].text, textStyle);
+  this.addChild(answerC);
+  var answerD = this.game.add.text(5, 245, 'D: ' + answers[3].text, textStyle);
+  this.addChild(answerD);
+};
 module.exports = BrowsableTextArea;

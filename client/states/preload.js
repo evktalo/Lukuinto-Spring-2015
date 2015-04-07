@@ -30,10 +30,10 @@ Preload.prototype = {
     this.load.spritesheet('avatar_5', 'assets/play/avatar_astropoika.png', 44, 71, 2, 0, 3);
 
     //Quiz state assets
-    this.load.image('taustakuva_kauppatori', 'assets/quiz/taustakuva_kauppatori.png');
-    this.load.image('question-background', 'assets/quiz/kuvaus_teksti.png');
-    this.load.image('answer-background', 'assets/quiz/valintojen_tausta.png');
-    this.load.spritesheet('answer-button', 'assets/quiz/valintapainike.png', 332, 121);
+    this.load.image('default-quiz', 'assets/quiz/oletus_etappi.png');
+    this.load.image('question-background', 'assets/quiz/kuvaus_teksti_uusi.png');
+    this.load.image('answer-background', 'assets/quiz/valintojen_tausta_uusi.png');
+    this.load.spritesheet('answer-button', 'assets/quiz/valintapainike_uusi.png', 104, 96, 2, 5, 10);
     this.load.image('quiz-confirm', 'assets/quiz/vahvista.png');
     this.load.spritesheet('button', 'assets/quiz/painike.png', 220, 96);
     this.load.image('announcement-negative', 'assets/quiz/huomio_tausta.png');
